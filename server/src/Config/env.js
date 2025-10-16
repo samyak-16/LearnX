@@ -2,16 +2,20 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const env = {
-  GROQ_API_KEY: process.env.GROQ_API_KEY || "dummy_key_for_testing",
-  MONGO_URL: process.env.MONGO_URL || "mongodb://localhost:27017/quizx",
-  JWT_SECRET: process.env.JWT_SECRET || "fallback_jwt_secret_for_development",
+  GROQ_API_KEY: process.env.GROQ_API_KEY,
+  MONGO_URL: process.env.MONGO_URL,
+  JWT_SECRET: process.env.JWT_SECRET,
+  PINECONE_INDEX_NAME: process.env.PINECONE_INDEX_NAME,
+  COHERE_API_KEY: process.env.COHERE_API_KEY,
+  PINECONE_API_KEY: process.env.PINECONE_API_KEY,
+
   MAILTRAP: {
-    HOST: process.env.MAILTRAP_SMTP_HOST || "sandbox.smtp.mailtrap.io",
-    PORT: process.env.MAILTRAP_SMTP_PORT || "2525",
-    USER: process.env.MAILTRAP_SMTP_USER || "dummy_user",
-    PASS: process.env.MAILTRAP_SMTP_PASS || "dummy_pass",
+    HOST: process.env.MAILTRAP_SMTP_HOST,
+    PORT: process.env.MAILTRAP_SMTP_PORT,
+    USER: process.env.MAILTRAP_SMTP_USER,
+    PASS: process.env.MAILTRAP_SMTP_PASS,
   },
-  PORT: process.env.PORT || 3000,
+  PORT: process.env.PORT,
 };
 
 export { env };

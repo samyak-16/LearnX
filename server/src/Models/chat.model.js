@@ -9,17 +9,31 @@ const chatSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    name: {
-      type: String, // Custom name for identifing chat with AI / Can be customized by user later
+    title: {
+      type: String, // Custom title for identifing chat with AI / Can be customized by user later
       trim: true,
     },
+    localPath: {
+      type: {
+        pdf: {
+          type: String,
+        },
+      },
+    },
 
+    chatType: {
+      type: String,
+      enum: ["pdf", "youtube"], // Can chat with pdf / youtube
+      default: null,
+    },
     youtubeMetaData: {
       type: {
         url: String, //Youtube Video URL
         title: String,
-        description: String,
+        author: String,
+        description: String, // AI generated
         thumbnail: String, // Cloudinary URL for youtube Thumbnail for better preview
+        noOfChunksMade: Number,
       },
       default: null,
     },
@@ -28,16 +42,27 @@ const chatSchema = new mongoose.Schema(
       type: {
         url: String, // Cloudinary URL of uploaded PDF
         title: String,
-        description: String,
+        description: String, // AI generated
         totalPages: Number,
+        noOfChunksMade: Number, //Using LangChain
       },
       default: null,
     },
-
-    chatType: {
+    status: {
       type: String,
-      enum: ["pdf", "youtube"], // Can chat with pdf / youtube
-      default: null,
+      enum: ["pending", "processing", "completed", "failed"],
+      default: "pending",
+      // Example Flow With Status
+
+      // User uploads a PDF || Youtube Video → status = "pending"
+
+      // Backend starts transcription → update status = "processing"
+
+      // Converts to chunks -> still status = "processing"
+
+      // chat processed successfully and ready for chatting → update status = "completed"
+
+      // If any error occurs → status = "failed"
     },
 
     lastMessageId: {

@@ -2,15 +2,18 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { inngestFunctions } from "./inngest/index.js";
+// import { inngestFunctions } from "./inngest/index.js";
+
 import { inngest } from "./Config/inngest.js";
 import { serve } from "inngest/express";
 
 import userRouter from "./Routes/user.route.js";
+import { inngestFunctions } from "./Inngest/index.js";
 
 const app = express();
 
 // middlewares
+app.use(cors());
 
 app.use(express.json());
 app.use(cookieParser());
@@ -30,3 +33,4 @@ app.use(
 );
 // Export app, don't listen here
 export { app };
+sas
