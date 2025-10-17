@@ -15,6 +15,7 @@
     "@langchain/community": "^0.3.57",
     "@langchain/core": "^0.3.78",
     "bcryptjs": "^3.0.2",
+    "cloudinary": "^2.7.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",

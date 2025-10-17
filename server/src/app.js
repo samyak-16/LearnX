@@ -9,6 +9,7 @@ import { serve } from "inngest/express";
 
 import userRouter from "./Routes/user.route.js";
 import { inngestFunctions } from "./Inngest/index.js";
+import chatRouter from "./Routes/chat.route.js";
 
 const app = express();
 
@@ -22,9 +23,12 @@ app.use(cookieParser());
 app.get("/", (req, res) => {
   res.send("Hello from backend");
 });
+
+router;
 app.use("/api/users", userRouter);
 app.use("/api/chats", chatRouter);
 app.use("/api/messages", messageRouter);
+app.use("/api/python", pythonRouter);
 
 //Inngest route from interacting asynchronously with inngest cloud
 app.use(
@@ -33,4 +37,4 @@ app.use(
 );
 // Export app, don't listen here
 export { app };
-sas
+sas;

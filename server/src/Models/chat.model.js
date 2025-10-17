@@ -18,6 +18,9 @@ const chatSchema = new mongoose.Schema(
         pdf: {
           type: String,
         },
+        mp3: {
+          type: String,
+        },
       },
     },
 
@@ -33,18 +36,17 @@ const chatSchema = new mongoose.Schema(
         author: String,
         description: String, // AI generated
         thumbnail: String, // Cloudinary URL for youtube Thumbnail for better preview
-        noOfChunksMade: Number,
+        noOfChunksMade: String, //Using LangChain
       },
       default: null,
     },
-
     pdfMetaData: {
       type: {
         url: String, // Cloudinary URL of uploaded PDF
         title: String,
         description: String, // AI generated
         totalPages: Number,
-        noOfChunksMade: Number, //Using LangChain
+        noOfChunksMade: String, //Using LangChain
       },
       default: null,
     },
