@@ -1,7 +1,7 @@
 import express from "express";
-import { createChat } from "../Controllers/chat.controller";
-import { authenticateUser } from "../Middlewares/auth.middleware";
-import { upload } from "../Middlewares/multer.middleware";
+import { createChat } from "../Controllers/chat.controller.js";
+import { authenticateUser } from "../Middlewares/auth.middleware.js";
+import { upload } from "../Middlewares/multer.middleware.js";
 
 const router = express.Router();
 

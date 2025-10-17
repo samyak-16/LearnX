@@ -2,7 +2,7 @@ import multer from "multer";
 import fs from "fs";
 
 // Define main folders
-const mainFolders = ["uploads/tempPdf", "uploads/tempYoutubeAudio"];
+const mainFolders = ["uploads/tempPdf", "downloads/tempYoutubeAudio"];
 mainFolders.forEach((folder) => {
   if (!fs.existsSync(folder)) {
     fs.mkdirSync(folder, { recursive: true });
@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
       file.mimetype === "audio/mpeg" ||
       file.mimetype === "audio/mp3"
     ) {
-      folder = "uploads/tempYoutubeAudio";
+      folder = "downloads/tempYoutubeAudio";
     } else {
       return cb(new Error("Invalid file type! Only PDF or MP3 allowed"), false);
     }

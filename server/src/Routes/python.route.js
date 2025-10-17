@@ -1,7 +1,7 @@
 import express from "express";
 
-import { upload } from "../Middlewares/multer.middleware";
-import { downloadMp3 } from "../Controllers/python.controller";
+import { upload } from "../Middlewares/multer.middleware.js";
+import { downloadMp3 } from "../Controllers/python.controller.js";
 
 const router = express.Router();
 

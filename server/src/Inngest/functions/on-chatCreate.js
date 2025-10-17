@@ -1,7 +1,8 @@
 import { Chat } from "../../Models/chat.model.js";
 import { inngest } from "../../Config/inngest.js";
 import { cleanTempFile } from "../../Utils/cleanTempFile.js";
-import { parsePDF } from "../../Utils/parsePdf.js";
+
+import { parsePDF } from "../../Utils/parsePDF.js";
 
 import { generateTranscript } from "../../Services/ai.services.js";
 import { NonRetriableError } from "inngest";
@@ -55,14 +56,13 @@ export const onCreateChat = inngest.createFunction(
 
         // Converts pdf to chunks and save to vector db :)
         await step.run("save-and-process-pdf", async () => {
-          const { noOfChunksMade, totalPages } = await parsePDF({
+          const { noOfChunksMade } = await parsePDF({
             filePath: chat.localPath.pdf,
             chatId,
           });
           await Chat.findByIdAndUpdate(chatId, {
             pdfMetaData: {
               noOfChunksMade,
-              totalPages,
             },
             status: "completed",
           });

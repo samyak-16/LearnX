@@ -7,9 +7,12 @@ import cookieParser from "cookie-parser";
 import { inngest } from "./Config/inngest.js";
 import { serve } from "inngest/express";
 
-import userRouter from "./Routes/user.route.js";
+// import userRouter from "./Routes/user.route.js";
 import { inngestFunctions } from "./Inngest/index.js";
 import chatRouter from "./Routes/chat.route.js";
+import userRouter from "./Routes/user.route.js";
+import messageRouter from "./Routes/message.route.js";
+import pythonRouter from "./Routes/python.route.js";
 
 const app = express();
 
@@ -24,7 +27,6 @@ app.get("/", (req, res) => {
   res.send("Hello from backend");
 });
 
-router;
 app.use("/api/users", userRouter);
 app.use("/api/chats", chatRouter);
 app.use("/api/messages", messageRouter);
@@ -37,4 +39,3 @@ app.use(
 );
 // Export app, don't listen here
 export { app };
-sas;

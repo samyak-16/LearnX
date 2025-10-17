@@ -34,7 +34,7 @@ const chatSchema = new mongoose.Schema(
         url: String, //Youtube Video URL
         title: String,
         author: String,
-        description: String, // AI generated
+        // description: String, // AI generated
         thumbnail: String, // Cloudinary URL for youtube Thumbnail for better preview
         noOfChunksMade: String, //Using LangChain
       },
@@ -44,8 +44,8 @@ const chatSchema = new mongoose.Schema(
       type: {
         url: String, // Cloudinary URL of uploaded PDF
         title: String,
-        description: String, // AI generated
-        totalPages: Number,
+        // description: String, // AI generated
+        // totalPages: Number,
         noOfChunksMade: String, //Using LangChain
       },
       default: null,
