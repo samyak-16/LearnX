@@ -1,9 +1,7 @@
 import { Chat } from "../../Models/chat.model.js";
 import { inngest } from "../../Config/inngest.js";
 import { cleanTempFile } from "../../Utils/cleanTempFile.js";
-
 import { parsePDF } from "../../Utils/parsePDF.js";
-
 import { generateTranscript } from "../../Services/ai.services.js";
 import { NonRetriableError } from "inngest";
 import { uploadOnCloudinary } from "../../Utils/uploadToCloudinary.js";

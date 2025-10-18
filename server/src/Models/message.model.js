@@ -9,7 +9,7 @@ const messageSchema = new mongoose.Schema(
     },
     senderType: {
       type: String,
-      enum: ["user", "ai"], // who sent the message
+      enum: ["user", "assistant"], // who sent the message
       required: true,
     },
     senderId: {
