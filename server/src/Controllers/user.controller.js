@@ -98,5 +98,6 @@ const logoutUser = async (req, res) => {
       .json(new ApiError(500, "Internal Server Error at logoutUser"));
   }
 };
+const getMe = async (req, res) => {}; //TODO - populate chat
 
 export { registerUser, loginUser, logoutUser };

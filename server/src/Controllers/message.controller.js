@@ -8,6 +8,7 @@ import { ApiError } from "../Utils/api-error.js";
 import { ApiResponse } from "../Utils/api-response.js";
 import { validateMongooseObjectId } from "../Utils/validateMongooseObjectId.js";
 
+//Send query as a message   :
 const askAI = async (req, res) => {
   const { chatId = "", query = "" } = req.body || {};
 
@@ -80,5 +81,8 @@ const askAI = async (req, res) => {
       .json(new ApiError(500, "Internal Server Error at askAI"));
   }
 };
+
+//Get Messages for a chat :
+const getMessages = async (req, res) => {};
 
 export { askAI };

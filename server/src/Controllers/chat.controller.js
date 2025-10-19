@@ -3,6 +3,7 @@ import { validateYouTubeUrlWithMeta } from "../Utils/validateYoutube.js";
 import { Chat } from "../Models/chat.model.js";
 import { ApiResponse } from "../Utils/api-response.js";
 import { inngest } from "../Config/inngest.js";
+import { validateMongooseObjectId } from "../Utils/validateMongooseObjectId.js";
 
 const createChat = async (req, res) => {
   const { title = "", chatType = "", youtubeUrl = "" } = req.body || {};
@@ -105,5 +106,53 @@ const createChat = async (req, res) => {
       .json(new ApiError(500, "Internal Server Error at createChat"));
   }
 };
+const getChat = async (req, res) => {
+  const { chatId = "" } = req.body || {};
+  if (!chatId) {
+    return res.status(400).json(new ApiError(400, "All fields are required"));
+  }
+  if (!validateMongooseObjectId(chatId)) {
+    return res
+      .status(400)
+      .json(new ApiError(400, "ChatId should be valid mongoose object Id"));
+  }
+  try {
+    const chat = await Chat.findById(chatId).populate();
+    if (!chat) {
+      return res.status(404).json(new ApiError(404, "Chat not found"));
+    }
+    return res
+      .status(200)
+      .json(new ApiResponse(200, { chat }, "Chat fetched successfully"));
+  } catch (error) {
+    console.error("Internal server error at getChat", error.message);
+    return res
+      .status(500)
+      .json(new ApiError(500, "Internal Server Error at getChat"));
+  }
+};
+const getChats = async (req, res) => {
+  //Get all chats
+  const userId = req.user._id.toString();
+  try {
+    const chats = await Chat.find({ createdBy: userId });
+    if (!chats) {
+      return res
+        .status(404)
+        .json(new ApiError(404, "No Chats Found for the user "));
+    }
 
-export { createChat };
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, { chats }, "User's Chats Fetched Successfully")
+      );
+  } catch (error) {
+    console.error("Internal Server Error at getChats");
+    return res
+      .status(500)
+      .json(new ApiError(500, "Internal Server Error at getChats"));
+  }
+};
+
+export { createChat, getChat, getChats };
