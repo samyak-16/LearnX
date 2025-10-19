@@ -1,7 +1,6 @@
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { vectorStore } from "../Config/vectorStore.js";
-import fs from "fs";
 
 async function parsePDF(filePath, chatId) {
   const loader = new PDFLoader(filePath, { splitPages: false });
@@ -19,10 +18,9 @@ async function parsePDF(filePath, chatId) {
   const documents = texts.map((chunks) => {
     return {
       pageContent: chunks,
-      metadata: { ...doc[0].metadata, chatId },
+      metadata: { chatId: chatId.toString() },
     };
   });
-  // console.log(documents);
 
   // Save to vector db
   await vectorStore.addDocuments(documents);

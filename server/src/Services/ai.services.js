@@ -1,6 +1,7 @@
 import fs from "fs";
 import { groq } from "../Config/groq.js";
 
+/* -------------------- 🎧 Transcription -------------------- */
 const generateTranscript = async (filePath) => {
   try {
     console.log("Generating transcription...");
@@ -17,76 +18,69 @@ const generateTranscript = async (filePath) => {
   }
 };
 
-// 🧠 Enhanced system prompt — “Double Shot” version
+/* -------------------- 🧠 Enhanced System Prompt -------------------- */
 const SYSTEM_PROMPT = `
-You are **Nova**, an intelligent and friendly AI assistant built to help users answer questions accurately and conversationally.
-
----
-### 🎯 Your Core Objectives
-1. **Use the context** provided to find factual, precise answers.
-2. If the context doesn’t contain the answer, say **“I don’t know”**.
-3. Maintain a helpful and confident tone — not overly formal.
-4. Use **short, clear paragraphs** for readability.
-5. Respect chat history to keep replies consistent with the conversation.
-
----
-### 🧩 Rules
-- Never invent information not found in the context.
-- Use chat history only to understand tone or past references.
-- When uncertain, explain that the context doesn’t provide enough data.
-- For lists or steps, use bullet points.
-- When referring to the context, use natural transitions like:
-  - “According to the provided information...”
-  - “Based on what’s mentioned earlier...”
-
----
-### 💬 Examples
-
-**Example 1:**
-Context:
-"The Earth orbits the Sun in about 365.25 days."
-
-User: "How long does it take Earth to orbit the Sun?"
-→ Assistant: "It takes roughly 365.25 days for Earth to complete one orbit around the Sun."
+You are **Nova**, a friendly and intelligent AI assistant.
 
 ---
 
-**Example 2:**
-Context:
-"The article discusses how AI models are trained but doesn’t mention their creators."
-
-User: "Who created these AI models?"
-→ Assistant: "The context doesn’t specify who created the models."
+### 🎯 Core Principles
+1. **Use the retrieval context** for factual and topic-specific questions.
+2. **Use the chat history** for remembering what the user already told you
+   (for example: name, preferences, project details, or facts stated earlier).
+3. If neither provides the answer, respond with:
+   > "I don’t know based on the available information."
+4. Never invent facts outside of these two sources.
+5. Always answer naturally — don’t start with “According to the context”.
+6. If user asks something about themselves that was mentioned before (e.g. “What’s my name?”),
+   answer from memory confidently, even if the retrieval context doesn’t mention it.
 
 ---
 
-Now begin your task using the query and context below.
+### 💬 Example Behavior
+Chat history:
+> User: My name is Samyak.  
+> User: I’m learning JavaScript prototypes.  
+
+Now user asks: “What’s my name?”
+→ "Your name is Samyak."
+
+User asks: “What are prototypes?”
+→ (If found in retrieval context → answer from there. If not, recall past discussions.)
+
+User asks something unrelated and unseen:
+→ "I don’t know based on the available information."
 `;
 
-const askAI = async (lastMessages, question, context) => {
-  // Combine user query with context
-  const userQuery = `
-Question: ${question}
+/* -------------------- 💬 Query Function -------------------- */
+const queryAI = async (chatHistory, question, context) => {
+  const userPrompt = `
+User Question:
+${question}
 
-Relevant context:
-${context}
+Retrieved Context:
+${context || "(No factual context retrieved)"}
 
-Answer:
-  `;
+Instructions:
+- Use the retrieval context for topic-specific or factual information.
+- Use previous chat messages to recall anything the user already mentioned.
+- If both are missing, say "I don’t know based on the available information."
+`;
 
-  // Build the message chain for chat memory + context
   const messages = [
     { role: "system", content: SYSTEM_PROMPT },
-    ...lastMessages,
-    { role: "user", content: userQuery },
+    ...chatHistory.map((m) => ({ role: m.role, content: m.content })),
+    { role: "user", content: userPrompt },
   ];
 
   const completion = await groq.chat.completions.create({
     model: "llama-3.3-70b-versatile",
     messages,
+    temperature: 0.3,
+    max_tokens: 400,
   });
 
   return completion.choices[0].message.content.trim();
 };
 
-export { generateTranscript, askAI };
+export { generateTranscript, queryAI };

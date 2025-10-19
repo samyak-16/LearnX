@@ -54,10 +54,7 @@ export const onCreateChat = inngest.createFunction(
 
         // Converts pdf to chunks and save to vector db :)
         await step.run("save-and-process-pdf", async () => {
-          const { noOfChunksMade } = await parsePDF({
-            filePath: chat.localPath.pdf,
-            chatId,
-          });
+          const { noOfChunksMade } = await parsePDF(chat.localPath.pdf, chatId);
           await Chat.findByIdAndUpdate(chatId, {
             pdfMetaData: {
               noOfChunksMade,

@@ -1,10 +1,10 @@
 import bcrytp from "bcrypt";
 import jwt from "jsonwebtoken";
-import { User } from "../Models/user.model.js";
 import { inngest } from "../Config/inngest.js";
-import { ApiError } from "../utils/api-error.js";
 import { env } from "../Config/env.js";
 import { ApiResponse } from "../Utils/api-response.js";
+import { ApiError } from "../Utils/api-error.js";
+import { User } from "../Models/user.model.js";
 
 const registerUser = async (req, res) => {
   const { email = "", name = "", password = "" } = req.body || {};

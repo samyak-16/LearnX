@@ -6,6 +6,7 @@ import { env } from "./env.js";
 //   const text = "I love you";
 const embeddings = new CohereEmbeddings({
   model: "embed-english-v3.0",
+  inputType: "search_document",
 });
 //   const vector = await embeddings.embedQuery(text);
 //   console.log("Vector", vector);

@@ -14,7 +14,6 @@ const messageSchema = new mongoose.Schema(
     },
     senderId: {
       type: String, // userId from auth service
-      required: true,
     },
     content: {
       type: String,

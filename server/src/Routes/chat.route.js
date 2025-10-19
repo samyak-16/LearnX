@@ -5,11 +5,6 @@ import { upload } from "../Middlewares/multer.middleware.js";
 
 const router = express.Router();
 
-router.post(
-  "create-chat",
-  authenticateUser,
-  upload.single("pdf", 1),
-  createChat
-);
+router.post("/create", authenticateUser, upload.single("pdf", 1), createChat);
 
 export default router;

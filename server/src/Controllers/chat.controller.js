@@ -2,6 +2,7 @@ import { ApiError } from "../Utils/api-error.js";
 import { validateYouTubeUrlWithMeta } from "../Utils/validateYoutube.js";
 import { Chat } from "../Models/chat.model.js";
 import { ApiResponse } from "../Utils/api-response.js";
+import { inngest } from "../Config/inngest.js";
 
 const createChat = async (req, res) => {
   const { title = "", chatType = "", youtubeUrl = "" } = req.body || {};
@@ -31,7 +32,7 @@ const createChat = async (req, res) => {
       .status(400)
       .json(new ApiError(400, "chatType can only include pdf||youtube"));
   }
-  if (sourceType === "youtube") {
+  if (chatType === "youtube") {
     if (!youtubeUrl) {
       return res
         .status(400)
@@ -41,7 +42,7 @@ const createChat = async (req, res) => {
     }
   }
   let videoMetadata;
-  if (sourceType === "youtube") {
+  if (chatType === "youtube") {
     const result = await validateYouTubeUrlWithMeta(youtubeUrl);
     if (!result.valid) {
       console.log(result.error);
