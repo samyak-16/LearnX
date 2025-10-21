@@ -98,6 +98,21 @@ const logoutUser = async (req, res) => {
       .json(new ApiError(500, "Internal Server Error at logoutUser"));
   }
 };
-const getMe = async (req, res) => {}; //TODO - populate chat
+const getUserProfile = async (req, res) => {
+  const user = req.user;
 
-export { registerUser, loginUser, logoutUser };
+  try {
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, { user }, "User's Profile Fetched Successfully")
+      );
+  } catch (error) {
+    console.error("Internal Server Error at getUserProfile");
+    return res
+      .status(500)
+      .json(new ApiError(500, "Internal Server Error at getUserProfile"));
+  }
+};
+
+export { registerUser, loginUser, logoutUser, getUserProfile };

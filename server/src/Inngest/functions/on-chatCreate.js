@@ -45,21 +45,21 @@ export const onCreateChat = inngest.createFunction(
             );
           }
           const url = result.url;
+
           await Chat.findByIdAndUpdate(chatId, {
-            pdfMetaData: {
-              url,
-            },
+            $set: { "pdfMetaData.url": url },
           });
         });
 
         // Converts pdf to chunks and save to vector db :)
         await step.run("save-and-process-pdf", async () => {
           const { noOfChunksMade } = await parsePDF(chat.localPath.pdf, chatId);
+
           await Chat.findByIdAndUpdate(chatId, {
-            pdfMetaData: {
-              noOfChunksMade,
+            $set: {
+              "pdfMetaData.noOfChunksMade": noOfChunksMade,
+              status: "completed",
             },
-            status: "completed",
           });
         });
 
@@ -76,7 +76,7 @@ export const onCreateChat = inngest.createFunction(
           "process-audio-and-save-as-mp3",
           async () => {
             //it calls python microservice , generates mp3 ,sends to node via another api-endpoint and saves the Filepath to db . and returns a filePath using multer .
-            return await getMp3(chat.youtubeMetaData.url);
+            return await getMp3(chat.youtubeMetaData.url, chatId);
           }
         );
 
@@ -94,10 +94,10 @@ export const onCreateChat = inngest.createFunction(
             chatId,
           });
           await Chat.findByIdAndUpdate(chatId, {
-            youtubeMetaData: {
-              noOfChunksMade,
+            $set: {
+              "youtubeMetaData.noOfChunksMade": noOfChunksMade,
+              status: "completed",
             },
-            status: "completed",
           });
         });
 
@@ -110,7 +110,7 @@ export const onCreateChat = inngest.createFunction(
     } catch (error) {
       console.error("Error in running the pipeline : ", error.message);
 
-      const chat = await chat.findByIdAndUpdate(quizId, { status: "failed" });
+      const chat = await chat.findByIdAndUpdate(chatId, { status: "failed" });
 
       try {
         if (chat.chatType === "pdf") {
@@ -122,6 +122,8 @@ export const onCreateChat = inngest.createFunction(
             await cleanTempFile(chat.localPath.mp3);
           }
         }
+        chat.localPath = undefined;
+        await chat.save();
       } catch (cleanupError) {
         console.error("Failed to clean temp file:", cleanupError.message);
       }

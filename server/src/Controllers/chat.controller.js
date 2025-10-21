@@ -21,10 +21,7 @@ const createChat = async (req, res) => {
     return res
       .status(400)
       .json(
-        new ApiError(
-          400,
-          "Atleast one chatType be included i.e youtuberl or pdf"
-        )
+        new ApiError(400, "Atleast one chatType be included i.e youtube or pdf")
       );
   }
 

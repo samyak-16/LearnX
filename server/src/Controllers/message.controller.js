@@ -63,6 +63,9 @@ const askAI = async (req, res) => {
       senderType: "assistant",
       content: aiContent,
     });
+
+    chat.lastMessageId = aiMessage._id;
+    await chat.save();
     await aiMessage.save();
 
     return res
