@@ -1,0 +1,313 @@
+{
+	"info": {
+		"_postman_id": "1f59ded2-59ff-4bb9-a426-8fc92a1c3131",
+		"name": "LearnX",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43819293",
+		"_collection_link": "https://samyakrajsubedi.postman.co/workspace/Samyak-Raj-Subedi's-Workspace~b3afd5f4-f828-461d-8e85-1ceee5cd5af2/collection/43819293-1f59ded2-59ff-4bb9-a426-8fc92a1c3131?action=share&source=collection_link&creator=43819293"
+	},
+	"item": [
+		{
+			"name": "User Controller",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " { \"email\" : \"samyak@quiz.ai.test.com\", \"password\" : \"CLEB1197B2\" , \"name\" : \"Samyak Raj Subedi\"  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " { \"email\" : \"samyak@quiz.ai.test.com\", \"password\" : \"CLEB1197B2\"  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/users/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"chatId\" : \"68f4f0b1fb0ef59a3a045ba5\", \"query\" :\"Can you summarize this whole pdf ?\" }"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/users/profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chat Controller",
+			"item": [
+				{
+					"name": "Create Chat -PDF",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Machine Learning roadMap",
+									"type": "text"
+								},
+								{
+									"key": "chatType",
+									"value": "pdf",
+									"type": "text"
+								},
+								{
+									"key": "pdf",
+									"type": "file",
+									"src": "/home/samyak/Desktop/E-Books/Road Map/AI_Engineer_Roadmap.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/chats/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"chats",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Chat - Youtube",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Advice",
+									"type": "text"
+								},
+								{
+									"key": "chatType",
+									"value": "youtube",
+									"type": "text"
+								},
+								{
+									"key": "youtubeUrl",
+									"value": "https://youtu.be/omCQKtI6OFM?si=bzUOmVpd8-AysYfm",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/chats/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"chats",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Chat By Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"chatId\" : \"68fa9671b752116cf98cd88e\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/chats/get-chat",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"chats",
+								"get-chat"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All User Chats",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"chatId\" : \"68f4f0b1fb0ef59a3a045ba5\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/chats/get-chats",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"chats",
+								"get-chats"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Message Controller",
+			"item": [
+				{
+					"name": "Ask Assistant",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"chatId\" : \"68fa9671b752116cf98cd88e\", \"query\" :\"Can you summarize all content ? \" }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/messages/ask-ai",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"messages",
+								"ask-ai"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
