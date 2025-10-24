@@ -5,6 +5,6 @@ import { downloadMp3 } from "../Controllers/python.controller.js";
 
 const router = express.Router();
 
-router.post("get-mp3", upload.single("mp3", 1), downloadMp3);
+router.post("/upload-audio", upload.single("mp3", 1), downloadMp3);
 
 export default router;

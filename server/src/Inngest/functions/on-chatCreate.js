@@ -6,11 +6,12 @@ import { generateTranscript } from "../../Services/ai.services.js";
 import { NonRetriableError } from "inngest";
 import { uploadOnCloudinary } from "../../Utils/uploadToCloudinary.js";
 import { getMp3 } from "../../Utils/getMp3.js";
+import { processTranscript } from "../../Utils/processTranscript.js";
 
 export const onCreateChat = inngest.createFunction(
   {
     id: "on-create-chat",
-    retries: 2,
+    retries: 1,
   },
   { event: "chat/create" },
   async ({ event, step }) => {
@@ -84,15 +85,15 @@ export const onCreateChat = inngest.createFunction(
           return await generateTranscript(filePath);
         });
 
-        console.log("Transcript generated succesfully from the mp3");
+        console.log("Transcript generated succesfully from the mp3  ");
 
         // Converts pdf to chunks and save to vector db :)
         await step.run("save-and-process-transcript", async () => {
-          const { noOfChunksMade } = await processTranscript({
-            metadata: chat.youtubeMetaData,
+          const { noOfChunksMade } = await processTranscript(
             transcript,
             chatId,
-          });
+            chat.youtubeMetaData,
+          );
           await Chat.findByIdAndUpdate(chatId, {
             $set: {
               "youtubeMetaData.noOfChunksMade": noOfChunksMade,
@@ -102,6 +103,9 @@ export const onCreateChat = inngest.createFunction(
         });
 
         await step.run("clean-temp-mp3", async () => {
+
+          const chat = await Chat.findById(chatId)
+
           await cleanTempFile(chat.localPath.mp3);
         });
       }

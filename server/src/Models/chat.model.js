@@ -22,6 +22,7 @@ const chatSchema = new mongoose.Schema(
           type: String,
         },
       },
+      default: {}
     },
 
     chatType: {

@@ -21,18 +21,15 @@ const downloadMp3 = async (req, res) => {
     if (!chat) {
       return res.status(404).json(new ApiError(404, "Chat not found"));
     }
+    console.log("path = ", file.path);
+
     chat.localPath.mp3 = file.path;
     await chat.save();
 
-    return res.status(
-      new ApiResponse(
-        200,
-        { filePath: file.path },
-        "Downloaded Mp3 successfully"
-      )
-    );
+
+    return res.status(200).json(new ApiResponse(200, { status: 200 }, "Downloaded Mp3 successfully"))
   } catch (error) {
-    console.error("Internal Server Error at downloadMp3 : ", error.message);
+    console.error("Yoo Internal Server Error at downloadMp3 : ", error);
     res
       .status(500)
       .json(new ApiError(500, "Internal Server Error at downloadMp3"));
